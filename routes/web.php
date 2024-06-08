@@ -1,30 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Servicios2Controller;
-use App\Http\Controllers\Servicios3Controller;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PersonasController;
+
+Route::get('/', function () {
+    return view('home');
+})->name('inicio');
 
 
-$servicios = [
-    // ['titulo' => 'Servicio 01'],
-    // ['titulo' => 'Servicio 02'],
-    // ['titulo' => 'Servicio 03'],
-    // ['titulo' => 'Servicio 04'],
-    // ['titulo' => 'Servicio 05'],
-];
+Route::prefix('servicios')->group(function () {
+    Route::get('/', [LandingController::class, 'servicios'])->name('servicios.index');
+    Route::get('/{id}', [LandingController::class, 'detalleServicio'])
+        ->name('servicios.detalle')
+        ->where('id', '[A-Za-z]+'); 
+});
 
+Route::prefix('proyectos')->group(function () {
+    Route::get('/', [LandingController::class, 'proyectos'])->name('proyectos.index');
+    Route::get('/{id}', [LandingController::class, 'detalleProyecto'])
+        ->name('proyectos.detalle')
+        ->where('id', '[A-Za-z]+');
+});
 
-Route::view('/','home')->name('home');
+Route::prefix('clientes')->group(function () {
+    Route::get('/', [LandingController::class, 'clientes'])->name('clientes.index');
+    Route::get('/{id}', [LandingController::class, 'detalleCliente'])
+        ->name('clientes.detalle')
+        ->where('id', '[A-Za-z]+');
+});
 
+Route::prefix('blogs')->group(function () {
+    Route::get('/', [LandingController::class, 'blogs'])->name('blogs.index');
+    Route::get('/{id}', [LandingController::class, 'detalleblog'])
+        ->name('blogs.detalle')
+        ->where('id', '[0-9]+'); 
+});
 
-Route::view('nosotros','nosotros')->name('nosotros');
-Route::get('servicios', [Servicios2Controller::class, 'index'])->name('servicios');
+Route::prefix('personas')->group(function () {
+    Route::get('/', [PersonasController::class, 'index'])->name('personas.index');
+    Route::get('/{id}', [PersonasController::class, 'show'])
+        ->name('personas.show')
+        ->where('id', '[A-Za-z0-9]+');
+});
 
-// Route::resource('servicios', Servicios2Controller::class)->only(['index', 'show']);
-// Route::resource('servicios', Servicios2Controller::class)->except(['index', 'show']);
-// Route::resource('servicios', Servicios3Controller::class);
-
-
-Route::view('contacto','contacto')->name('contacto');
-
-
+Route::get('/contacto', [LandingController::class, 'contacto'])->name('contacto.index');

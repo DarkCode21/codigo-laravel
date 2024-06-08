@@ -1,6 +1,9 @@
 <?php
-    function setActivo($ruta){
-        return request()->routeIs($ruta) ? 'activo' : '' ; 
+
+    if(! function_exists('setActivo')){
+        function setActivo($ruta){
+            return request()->routeIs($ruta) ? 'active' : '' ; 
+        }
     }
 
 ?>
