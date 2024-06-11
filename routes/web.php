@@ -45,3 +45,4 @@ Route::prefix('personas')->group(function () {
 });
 
 Route::get('/contacto', [LandingController::class, 'contacto'])->name('contacto.index');
+
